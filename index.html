@@ -1,142 +1,139 @@
-
-<!--This workshop requires a vert basic knowledge of HTML. -->
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>VR World</title>
     <!--To build our VR world using a framework, we need to link A-frame with our HTML document. for this purpose drop a <script> tag pointing to the CDN build.-->
-    <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+    <script src="js/aframe-particle-system-component.min.js"></script>
   </head>
   <body>
-<a-scene> <!-- In order to start creating our virtual world, we must create a scene. The scene is the main tag, everything that we want to put inside of our world will go inside of this tag, that includes the primitives, the camera, and many more.-->
+    <a-scene do-something particle-system="preset: dust; particleCount: 1000">
+<!-- In order to start creating our virtual world, we must create a scene. The scene is the main tag, everything that we want to put inside of our world will go inside of this tag, that includes the primitives, the camera, and many more.-->
 
-<a-camera position='0 0 3' user-height='0'></a-camera>
+<a-assets>
   
-  <a-assets> <!-- A-Frame has an asset management system that allows us to place our assets in one place and to preload and cache assets for better performance.-->
-     <img id="reflection" src="src/earth.jpg">
-    <img id="sky" src="src/panaroma.jpg">
-    <img id="sun" src="src/sun.jpg">
-    <img id="mercury" src="src/mercury.jpg"> 
-    <img id="venus" src="src/venus.jpg">
-    <img id="marse" src="src/marse.jpg">
-    <img id="jupiter" src="src/jupiter.jpg">
-    <img id="saturn" src="src/saturn.jpg">
-    <img id="uranus" src="src/uranus.jpg">
-    <img id="neptune" src="src/neptune.jpg">
-  </a-assets>
-  
- <a-sphere material="src:#reflection" color="white" depth="2" height="2" width="2" position="4 0 0" radius="3"> 
-   <!-- This tag helps us to create 3d models in our VR world itself.
+  <img
+    id="sun_img"
+    src="https://cdn.glitch.com/219200fc-7f24-4fc9-b9be-a41479e9dd1b%2Fsun-aframe.jpg?v=1621787078325"
+  />
+  <img
+    id="mercury_img"
+    src="https://cdn.glitch.com/219200fc-7f24-4fc9-b9be-a41479e9dd1b%2Fmercury.jpg?v=1621787033698"
+  />
+  <img
+    id="venus_img"
+    src="https://cdn.glitch.com/219200fc-7f24-4fc9-b9be-a41479e9dd1b%2Fvenus.jpg?v=1621787199673"
+  />
+  <img
+    id="earth_img"
+    src="https://cdn.glitch.com/219200fc-7f24-4fc9-b9be-a41479e9dd1b%2Fearth.jpg?v=1621786431202"
+  />
+  <img
+    id="mars_img"
+    src="https://cdn.glitch.com/219200fc-7f24-4fc9-b9be-a41479e9dd1b%2Fmars.jpg?v=1621786996739"
+  />
+  <img
+    id="jupiter_img"
+    src="https://cdn.glitch.com/219200fc-7f24-4fc9-b9be-a41479e9dd1b%2Fjupiter.jpg?v=1621786440474"
+  />
+  <img
+    id="saturn_img"
+    src="https://cdn.glitch.com/219200fc-7f24-4fc9-b9be-a41479e9dd1b%2Fsun-aframe.jpg?v=1621787078325"
+  />
+  <img
+    id="uranus_img"
+    src="https://cdn.glitch.com/219200fc-7f24-4fc9-b9be-a41479e9dd1b%2Furanus.jpg?v=1621787052812"
+  />
+  <img
+    id="neptune_img"
+    src="https://cdn.glitch.com/219200fc-7f24-4fc9-b9be-a41479e9dd1b%2Fneptune.jpg?v=1621786958821"
+  />
+</a-assets>
+
+      <a-entity position="0 2 0">
+        <a-entity camera look-controls wasd-controls>
+          <a-entity position="0 0 -3"
+                    geometry="primitive: ring; radiusInner: 0.1; radiusOuter: 0.2;"
+                    material="color: red; shader: flat"
+                    cursor="fuse: true">
+            <a-animation begin="fusing" easing="ease-in" attribute="scale" 
+              fill="backwards" from="1 1 1" to="0.2 0.2 0.2" dur="1500">
+            </a-animation>
+            <a-animation begin="click" easing="ease-in" attribute="scale" dur="1500"
+                fill="forwards" from="0.1 0.1 0.1" to="1 1 1">
+            </a-animation>
+
+            <a-entity id="card_data" visible="false" position="0 3.5 -4" geometry="primitive: plane; height: 5; width: 5" material="side: double">
+              <a-text font="monoid" id="planet_text" position="-1 2 0" width="14" value ="Loading" color="#000"></a-text>
+              <a-text font="dejavu" id="mass_text" position="-2 1 0" width="7" value ="Loading" color="#000"></a-text>
+              <a-text font="dejavu" id="volume_text" position="-2 0 0" width="7" value ="Loading" color="#000"></a-text>
+              <a-text font="dejavu" id="gravity_text" position="-2 -1 0" width="7" value ="Loading" color="#000"></a-text>
+            </a-entity>
+        
+          </a-entity>
+        </a-entity>
+    </a-entity>
+
+      <a-sphere id="sol" position="0 2 -7" radius="3.5" src="#sun_img">
+ <!-- This tag helps us to create 3d models in our VR world itself.
   "<a-sphere></a-sphere>" this tag use to create sphere but you can create many other shapes like cylinder , ring etc. by simply replacing "sphere" word in this tag with the shape name which you want. 
     here material helps us to add image in our shape. we can also use color attribute to add color. for adjusting our shape sizes we use depth, height,and width tags.
   position helps us to adjust position of our 3d model in our vr world. Also we can change radius of sphere using radius attribute.-->
-   <a-animation attribute="rotation"
-              dur="8000"
-              from= "0 0 0"
-              to="0 360 0"
-              easing= "linear"     
-              repeat="indefinite">
-            </a-animation> <!-- We can easily add animation in our A frame using <a-animation> tag. we can also use various attributes. here we used rotation attribute to make our sphere(planet) rotate.
+
+        <a-entity position="0 -3 -1" particle-system="color: #EF0000,#44CC00;size: 0.2;maxAge:10;particleCount:300;texture:https://cdn.glitch.com/c1051546-359f-4e34-b17d-bd2b8900be35%2Fthumbnails%2F2k_sun.jpg?1599075846071"></a-entity>
+      </a-sphere>
+
+      <a-sphere id="mercury" position="5 2 -4" radius="0.5" src="#mercury_img">
+        <a-animation attribute="rotation" from="0 45 45" to="0 360 0" direction="alternate" dur="30000" loop: true
+      repeat="indefinite"></a-animation>
+<!-- We can easily add animation in our A frame using <a-animation> tag. we can also use various attributes. here we used rotation attribute to make our sphere(planet) rotate.
               There are other attributes too like dur which helps us to increase or decrease speed of rotation. The lower the value of Dur, the higher the speed of rotation. Then comes from and to attributes which decides the starting and ending position of rotation.\
                the easing attribute, which is basically how you want the object to move or we can also say what pattern do you want your animation to follow.then comes repeat means how many times do you want your animation to, well, repeat.
               -->
-          </a-sphere>
-<a-text value="Earth" color="#white" position="3 4 0" scale="4.5 4.5 4.5"></a-text>
-<!-- we can add text to our world using <a-text> element.-->
-  
- <a-sphere material="src:#sun" color="orange" depth="" height="60" width="60" position="50 0 0" radius="10"></a-sphere>
- <a-text value="Sun" color="#white" position="50 12 0" scale="6.5 6.5 6.5"></a-text>
 
+      </a-sphere>
 
- <a-sphere material="src:#mercury" color="" depth="" height="1" width="1" position="28 0 2" radius="0.8">
-  <a-animation attribute="rotation"
-  dur="8000"
-  from= "0 0 0"
-  to="0 360 0"
-  easing= "linear"     
-  repeat="indefinite">
-</a-animation>
- </a-sphere>
- <a-text value="Mercury" color="#white" position="26 2 2" scale="4.5 4.5 4.5"></a-text>
+      <a-sphere id="venus" position="6 2 0" radius="0.75" src="#venus_img">
+        <a-animation attribute="rotation" from="0 45 45" to="0 360 0" direction="alternate" dur="30000"
+      repeat="indefinite"></a-animation>
+      </a-sphere>
 
- <a-sphere material="src:#venus" color="" depth="" height="1" width="1" position="15 0 3" radius="2">
-  <a-animation attribute="rotation"
-  dur="8000"
-  from= "0 0 0"
-  to="0 -360 0"
-  easing= "linear"     
-  repeat="indefinite">
-</a-animation>
- </a-sphere>
- <a-text value="venus" color="" position="14 3 3" scale="4.5 4.5 4.5"></a-text>
+      <a-sphere id="earth" position="0 2 5" radius="1" src="#earth_img">
+        <a-animation attribute="rotation" from="0 45 45" to="0 360 0" direction="alternate" dur="30000"
+      repeat="indefinite"></a-animation>
+      </a-sphere>
 
- <a-sphere material="src:#marse" color="" depth="" height="1" width="1" position="-9 0 5" radius="1">
-  <a-animation attribute="rotation"
-  dur="8000"
-  from= "0 0 0"
-  to="0 360 0"
-  easing= "linear"     
-  repeat="indefinite">
-</a-animation>
- </a-sphere>
- <a-text value="Marse" color="" position="-10 2 5" scale="4.5 4.5 4.5"></a-text>
+      <a-sphere id="mars" position="-8 2 7" radius="0.5" src="#mars_img">
+        <a-animation attribute="rotation" from="0 45 45" to="0 360 0" direction="alternate" dur="30000"
+      repeat="indefinite"></a-animation>
+      </a-sphere>
 
- <a-sphere material="src:#jupiter" color="" depth="" height="1" width="1" position="-25 0 10" radius="5">
-  <a-animation attribute="rotation"
-  dur="8000"
-  from= "0 0 0"
-  to="0 360 0"
-  easing= "linear"     
-  repeat="indefinite">
-</a-animation>
- </a-sphere>
- <a-text value="Jupiter" color="" position="-27 6 10" scale="4.5 4.5 4.5"></a-text>
+      <a-sphere id="jupiter" position="-16 2 2" radius="1.5" src="#jupiter_img">
+        <a-animation attribute="rotation" from="0 45 45" to="0 360 0" direction="alternate" dur="30000"
+      repeat="indefinite"></a-animation>
+      </a-sphere>
 
- <a-sphere material="src:#saturn" color="" depth="" height="1" width="1" position="-45 0 15" radius="4">
-  <a-animation attribute="rotation"
-  dur="8000"
-  from= "0 0 0"
-  to="0 360 0"
-  easing= "linear"     
-  repeat="indefinite">
-</a-animation>
- </a-sphere>
- <a-cylinder material="" color="#white" depth="" height="1" width="" position="-45 0 15" angle="180" radius="8"></a-cylinder>
- <a-text value="Saturn" color="" position="-47 6 15" scale="4.5 4.5 4.5"></a-text>
+      <a-sphere id="saturn" position="-21 2 -6" radius="1.25" src="#saturn_img">
+        <a-animation attribute="rotation" from="0 45 45" to="0 360 0" direction="alternate" dur="30000"
+      repeat="indefinite"></a-animation>
+      </a-sphere>
+      <a-entity position="-16 2 2" geometry="primitive: circle; radius: 2.5" material="side: double" color="#F0EABA"></a-entity>
 
- <a-sphere material="src:#uranus" color="" depth="" height="1" width="1" position="-60 0 20" radius="3">
-  <a-animation attribute="rotation"
-  dur="8000"
-  from= "0 0 0"
-  to="0 360 0"
-  easing= "linear"     
-  repeat="indefinite">
-</a-animation>
- </a-sphere>
- <a-text value="Uranus" color="" position="-60 4 20" scale="4.5 4.5 4.5"></a-text>
+      <a-sphere id="uranus" position="-26 2 -15" radius="1" src="#uranus_img"
+      >
+        <a-animation attribute="rotation" from="0 45 45" to="0 360 0" direction="alternate" dur="30000"
+      repeat="indefinite"></a-animation>
+      </a-sphere>
 
- <a-sphere material="src:#neptune" color="" depth="" height="1" width="1" position="-75 0 25" radius="2.5">
-  <a-animation attribute="rotation"
-  dur="8000"
-  from= "0 0 0"
-  to="0 360 0"
-  easing= "linear"     
-  repeat="indefinite">
-</a-animation>
- </a-sphere>
- <a-text value="Neptune" color="" position="-75 4 25" scale="4.5 4.5 4.5"></a-text>
- 
-  <a-sky src="#sky"></a-sky> <!-- We used this tag to add background image to our world-->
-  <a-plane src="#ground" height="10" width="10" rotation="-180 0 0"></a-plane> <!-- As we have a sky, we'll need a floor too. This tag helps us to add floor. (we can use either image or leave it blank)-->
-      <img id="ground" src=""> 
+      <a-sphere id="neptune" position="-24 2 -26" radius="1" src="#neptune_img">
+        <a-animation attribute="rotation" from="0 45 45" to="0 360 0" direction="alternate" dur="30000"
+      repeat="indefinite"></a-animation>
+      </a-sphere>
+      
+      <a-sky src="https://cdn.glitch.com/c1051546-359f-4e34-b17d-bd2b8900be35%2Fthumbnails%2F2k_stars_milky_way.jpg?1599075382958"></a-sky>
 
-      <a-assets> 
-        <audio id="background" src=""></audio> <!-- src will point our audio.-->
-    </a-assets>
-    
-    <a-sound src="#background" autoplay="true"></a-sound> <!-- we can add sound to our vr world using this tag. Here we use autoplay because we want the sound to start playing when the user joins our world.-->
-
-</a-scene>
-</body>
+      <a-sound src="#background" autoplay="true"></a-sound> <!-- we can add sound to our vr world using this tag. Here we use autoplay because we want the sound to start playing when the user joins our world.-->
+    </a-scene>
+    <script type="text/javascript" src="js/app.js"></script>
+  </body>
 </html>
