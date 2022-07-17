@@ -1,7 +1,6 @@
 <div align="center">
 <h1> ☄Solar System Web VR</h1>
 
-
 ![2022-07-17](https://user-images.githubusercontent.com/87236107/179387006-9932d262-19e9-496c-aae0-4d326bc9e5d6.png)
 
 A web based virtual reality solar system experience built with [AFrame](https://github.com/aframevr/aframe) (A web framework for building 3D/AR/VR experiences).
@@ -39,3 +38,7 @@ Root
 * You can exit by pressing the ESC key.
 * Move around in VR (with a headset) by using the left or right controller toggle or touch pad (depending on vendor). 
 * Use the right controller's laser pointer to select planets and the left controller's trigger to teleport.
+
+<div align="center">
+ <img src="https://github.com/TheDudeThatCode/TheDudeThatCode/blob/master/Assets/Rocket.gif" width="60px">
+ </div>
