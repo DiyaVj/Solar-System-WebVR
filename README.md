@@ -6,6 +6,32 @@
 
 A web based virtual reality solar system experience built with [AFrame](https://github.com/aframevr/aframe) (A web framework for building 3D/AR/VR experiences).
 </div>
+
+<h2>🌠Project Structure </h2>
+
+```
+Root
+|
+|__assets
+        |__src
+             |__earth.jpg
+             |__jupiter.jpg
+             |__marse.jpg
+             |__mercury.jpg
+             |__neptune.jpg
+             |__panaroma.jpg
+             |__saturn.jpg
+             |__sun.jpg
+             |__uranus.jpg
+             |__venus.jpg
+|__js
+    |__aframe-particle-system-component.min.js
+    |__app.js
+|__README.md
+|__index.html
+
+```
+
 <h2> 🌠Instructions </h2>
 
 * On a desktop or laptop, click the VR button in the lower right corner of the screen. 
